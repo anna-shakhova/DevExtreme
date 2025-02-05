@@ -1,5 +1,5 @@
 import React from 'react';
-import Examples from './examples/Examples';
+import Examples from './playground/Examples';
 
 const App = () => (
     <Examples />

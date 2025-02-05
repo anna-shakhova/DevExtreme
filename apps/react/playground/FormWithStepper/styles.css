@@ -1,0 +1,12 @@
+.stepper {
+    display: flex;
+}
+
+.margin-button {
+    margin-right: 16px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: flex-end;
+}
