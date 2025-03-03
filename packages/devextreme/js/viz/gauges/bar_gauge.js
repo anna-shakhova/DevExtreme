@@ -337,10 +337,228 @@ export const dxBarGauge = BaseGauge.inherit({
         });
     },
 
+    _sortBarsByBBox(bars, byStart) {
+        return bars.sort((a, b) => {
+            const aBox = a._text.getBBox();
+            const bBox = b._text.getBBox();
+
+            if(byStart) {
+                return aBox.x - bBox.x;
+            }
+
+            return bBox.x + bBox.width - aBox.x - aBox.width;
+        });
+    },
+
+    _splitBarsByAngle() {
+        const that = this;
+        const bars = that._bars;
+
+        return bars.reduce(function(stackBars, bar) {
+            const angle = normalizeAngle(bar._angle);
+            const isRightSide = angle <= 90 || angle >= 270;
+            const barToExtend = isRightSide ? stackBars.right : stackBars.left;
+
+            bar._text._lastCoords = { x: 0, y: 0 };
+            barToExtend.push(bar);
+
+            return stackBars;
+        }, { left: [], right: [] });
+    },
+
+    _areBBoxIntersect(lBox, rBox) {
+        const intersectLeft = lBox.x < rBox.x && (rBox.x < lBox.x + lBox.width);
+        const intersectRight = rBox.x < lBox.x && (lBox.x < rBox.x + rBox.width);
+        const lInsideRBox = rBox.x < lBox.x && (lBox.x + lBox.width < rBox.x + rBox.width);
+        const rInsideLBox = lBox.x < rBox.x && (rBox.x + rBox.width < lBox.x + lBox.width);
+        const intersectByX = intersectLeft || intersectRight || lInsideRBox || rInsideLBox;
+
+        if(!intersectByX) {
+            return false;
+        }
+
+        const intersectTop = lBox.y <= rBox.y && (rBox.y <= lBox.y + lBox.height);
+        const intersectBottom = rBox.y <= lBox.y && (lBox.y <= rBox.y + rBox.height);
+        const lInsideRBo = rBox.y < lBox.y && (lBox.y + lBox.height < rBox.y + rBox.height);
+        const rInsideLBo = lBox.y < rBox.y && (rBox.y + rBox.height < lBox.y + lBox.height);
+
+        return intersectTop || intersectBottom || lInsideRBo || rInsideLBo;
+    },
+
+    _splitBarsByIntersection() {
+        const splitBars = this._splitBarsByAngle();
+
+        this._sortBarsByBBox(splitBars.left, false);
+        this._sortBarsByBBox(splitBars.right, true);
+
+        const { x: centerX } = this._getCenter();
+
+        const intersection = {
+            topLeftBox: { x: centerX, width: 0, y: 0, height: Infinity },
+            topRightBox: { x: centerX, width: 0, y: 0, height: Infinity },
+            bottomLeftBox: { x: centerX, width: 0, y: 0, height: Infinity },
+            bottomRightBox: { x: centerX, width: 0, y: 0, height: Infinity },
+        };
+
+        const bars = {
+            left: [],
+            right: [],
+            top: [],
+            bottom: [],
+        };
+
+        splitBars.left.forEach((bar) => {
+            const angle = normalizeAngle(bar._angle);
+            const isTop = angle <= 180;
+            const bBox = bar._text.getBBox();
+            const leftBox = isTop ? intersection.topLeftBox : intersection.bottomLeftBox;
+            const rightBox = isTop ? intersection.topRightBox : intersection.bottomRightBox;
+
+            const intersectLeft = this._areBBoxIntersect(bBox, leftBox);
+            const intersectRight = this._areBBoxIntersect(bBox, rightBox);
+
+            if(intersectLeft) {
+                leftBox.x = Math.min(leftBox.x, bBox.x);
+                leftBox.width = centerX - leftBox.x;
+
+                const hasHeight = isFinite(leftBox.height);
+                const bottom = hasHeight ? Math.max(leftBox.y + leftBox.height, bBox.y + bBox.height) : bBox.y + bBox.height;
+
+                leftBox.y = hasHeight ? Math.min(leftBox.y, bBox.y) : bBox.y;
+                leftBox.height = bottom - leftBox.y;
+            }
+
+            if(intersectRight) {
+                const right = Math.max(rightBox.x + rightBox.width, bBox.x + bBox.width);
+                rightBox.width = right - centerX;
+
+                const hasHeight = isFinite(rightBox.height);
+                const bottom = hasHeight ? Math.max(rightBox.y + rightBox.height, bBox.y + bBox.height) : bBox.y + bBox.height;
+
+                rightBox.y = hasHeight ? Math.min(rightBox.y, bBox.y) : bBox.y;
+                rightBox.height = bottom - rightBox.y;
+            }
+
+            if(intersectLeft || intersectRight) {
+                if(isTop) {
+                    bars.top.push(bar);
+                } else {
+                    bars.bottom.push(bar);
+                }
+            } else {
+                bars.left.push(bar);
+            }
+        });
+
+        splitBars.right.forEach((bar) => {
+            const angle = normalizeAngle(bar._angle);
+            const isTop = angle <= 180;
+            const bBox = bar._text.getBBox();
+            const leftBox = isTop ? intersection.topLeftBox : intersection.bottomLeftBox;
+            const rightBox = isTop ? intersection.topRightBox : intersection.bottomRightBox;
+
+            const intersectLeft = this._areBBoxIntersect(bBox, leftBox);
+            const intersectRight = this._areBBoxIntersect(bBox, rightBox);
+
+            if(intersectLeft) {
+                leftBox.x = Math.min(leftBox.x, bBox.x);
+                leftBox.width = centerX - leftBox.x;
+
+                const hasHeight = isFinite(leftBox.height);
+                const bottom = hasHeight ? Math.max(leftBox.y + leftBox.height, bBox.y + bBox.height) : bBox.y + bBox.height;
+
+                leftBox.y = hasHeight ? Math.min(leftBox.y, bBox.y) : bBox.y;
+                leftBox.height = bottom - leftBox.y;
+            }
+
+            if(intersectRight) {
+                const right = Math.max(rightBox.x + rightBox.width, bBox.x + bBox.width);
+                rightBox.width = right - centerX;
+
+                const hasHeight = isFinite(rightBox.height);
+                const bottom = hasHeight ? Math.max(rightBox.y + rightBox.height, bBox.y + bBox.height) : bBox.y + bBox.height;
+
+                rightBox.y = hasHeight ? Math.min(rightBox.y, bBox.y) : bBox.y;
+                rightBox.height = bottom - rightBox.y;
+            }
+
+            if(intersectLeft || intersectRight) {
+                if(isTop) {
+                    bars.top.push(bar);
+                } else {
+                    bars.bottom.push(bar);
+                }
+            } else {
+                bars.right.push(bar);
+            }
+        });
+
+        if(bars.top.length) {
+            const smallerGroup = bars.left.length < bars.right.length ? bars.left : bars.right;
+            smallerGroup.push(...bars.top);
+        }
+
+        if(bars.bottom.length) {
+            const smallerGroup = bars.left.length < bars.right.length ? bars.left : bars.right;
+            smallerGroup.push(bars.bottom);
+        }
+
+        return {
+            // left: bars.left,
+            // right: bars.right,
+            left: bars.left.sort((a, b) => b._settings.outerRadius - a._settings.outerRadius),
+            right: bars.right.sort((a, b) => b._settings.outerRadius - a._settings.outerRadius),
+        };
+    },
+
     _dividePoints() {
         const that = this;
         const bars = that._bars;
-        return bars.reduce(function(stackBars, bar) {
+
+        const splitBars = this._splitBarsByIntersection();
+
+        console.log('center', this._getCenter(), this._context);
+
+        const enrichBar = (bar) => ({
+            series: {
+                isStackedSeries: () => false,
+                isFullStackedSeries: () => false
+            },
+            getLabels: () => [{
+                isVisible: () => true,
+                getBoundingRect: () => {
+                    const { height, width, x, y } = bar._text.getBBox();
+                    const lastCoords = bar._text._lastCoords;
+
+                    return {
+                        x: x + lastCoords.x,
+                        y: y + lastCoords.y,
+                        width,
+                        height,
+                    };
+                },
+                shift: (x, y) => {
+                    const box = bar._text.getBBox();
+
+                    bar._text._lastCoords = { x: x - box.x, y: y - box.y };
+                    bar._text.attr({ translateX: x - box.x, translateY: y - box.y });
+                    bar._isLabelShifted = true;
+                },
+                draw: () => bar.hideLabel(),
+                getData: () => { return { value: bar.getValue() }; },
+                hideInsideLabel: ()=> false,
+            }]
+        });
+
+        return {
+            left: splitBars.left.map(enrichBar),
+            right: splitBars.right.map(enrichBar),
+        };
+
+
+        /*   return bars.reduce(function(stackBars, bar) {
+            console.log('label bbox', bar._text.getBBox());
+
             const angle = normalizeAngle(bar._angle);
             const isRightSide = angle <= 90 || angle >= 270;
             bar._text._lastCoords = { x: 0, y: 0 };
@@ -379,7 +597,7 @@ export const dxBarGauge = BaseGauge.inherit({
                 }
                 );
             return stackBars;
-        }, { left: [], right: [] });
+        }, { left: [], right: [] });*/
     },
 
     _clearOverlappingLabels() {
