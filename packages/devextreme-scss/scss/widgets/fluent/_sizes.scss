@@ -30,11 +30,14 @@ $fluent-button-icon-size: null !default;
 */
 $fluent-button-icon-margin: null !default;
 
+$ds-base-font-size: null !default;
+
 @if $size == "default" {
   $fluent-size-postfix: "" !default;
 
   // Font sizes
   $fluent-base-font-size: 14px !default;
+  $ds-base-font-size: var(--DS-sizing-140) !default;
 
   // Base sizes
   $fluent-base-inline-widget-height: 32px !default;
@@ -52,6 +55,7 @@ $fluent-button-icon-margin: null !default;
 
   // Font sizes
   $fluent-base-font-size: 12px !default;
+  $ds-base-font-size: var(--DS-sizing-120) !default;
 
   // Base sizes
   $fluent-base-inline-widget-height: 24px !default;
@@ -66,7 +70,6 @@ $fluent-button-icon-margin: null !default;
 
 // Base bordered inline widgets sizes
 $fluent-base-border-width: 1px !default;
-
 
 /**
 * $name 200. Border radius
@@ -83,4 +86,5 @@ $fluent-base-standard-texteditor-input-horizontal-padding: 0 !default;
   --dx-border-width: #{$fluent-base-border-width};
   --dx-border-radius: #{$fluent-base-border-radius};
   --dx-font-size-icon: #{$fluent-base-icon-size};
+  --DS-base-font-size: #{$ds-base-font-size}
 }

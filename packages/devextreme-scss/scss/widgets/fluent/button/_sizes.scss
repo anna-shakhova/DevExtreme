@@ -2,6 +2,24 @@
 
 // adduse
 
+@if $size == "compact" {
+  :root {
+    --DS-button-base-padding: var(--DS-sizing-40);
+    --DS-button-height: var(--DS-sizing-240);
+    --DS-button-icon-size: var(--DS-sizing-160);
+    --DS-button-icon-margin: var(--DS-sizing-40);
+  }
+}
+
+@if $size == "default" {
+  :root {
+    --DS-button-base-padding: var(--DS-sizing-60);
+    --DS-button-height: var(--DS-sizing-320);
+    --DS-button-icon-size: var(--DS-sizing-200);
+    --DS-button-icon-margin: var(--DS-sizing-60);
+  }
+}
+
 $fluent-button-content-line-height: 0 !default;
 $fluent-button-text-line-height: normal !default;
 $fluent-button-text-transform: none !default;
@@ -12,30 +30,14 @@ $fluent-border-width: var(--DS-border-width-10) !default; // theme base level
 
 $fluent-button-box-shadow-size: 0 1px 3px !default;
 
-$button-base-padding: null !default;
+$ds-button-base-padding: var(--DS-button-base-padding) !default;
 
-$ds-fluent-button-height: null !default;
-$ds-fluent-button-icon-size: null !default;
-$ds-fluent-button-icon-margin: null !default;
+$ds-fluent-button-height: var(--DS-button-height) !default;
+$ds-fluent-button-icon-size: var(--DS-button-icon-size) !default;
+$ds-fluent-button-icon-margin: var(--DS-button-icon-margin) !default;
 
-@if $size == "default" {
-  $button-base-padding: var(--DS-sizing-60) !default;
-
-  $ds-fluent-button-height: var(--DS-sizing-320) !default;
-  $ds-fluent-button-icon-size: var(--DS-sizing-200) !default;
-  $ds-fluent-button-icon-margin: var(--DS-sizing-80) !default;
-}
-
-@else if $size == "compact" {
-  $button-base-padding: var(--DS-sizing-40) !default;
-
-  $ds-fluent-button-height: var(--DS-sizing-240) !default;
-  $ds-fluent-button-icon-size: var(--DS-sizing-160) !default;
-  $ds-fluent-button-icon-margin: var(--DS-sizing-40) !default;
-}
-
-$fluent-button-horizontal-padding: calc(#{$button-base-padding} * 2) !default;
-$fluent-button-vertical-padding: $button-base-padding !default;
+$fluent-button-horizontal-padding: calc(#{$ds-button-base-padding} * 2) !default;
+$fluent-button-vertical-padding: $ds-button-base-padding !default;
 $fluent-button-icon-text-padding: $fluent-button-horizontal-padding !default;
 
 :root {

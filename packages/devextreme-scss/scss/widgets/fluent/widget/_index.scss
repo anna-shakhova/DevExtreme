@@ -26,3 +26,15 @@
 .dx-surface {
   background-color: $base-bg;
 }
+
+.dx-size-small {
+  --DS-base-font-size: var(--DS-sizing-120);
+}
+
+.dx-size-medium  {
+  --DS-base-font-size: var(--DS-sizing-140);
+}
+
+.dx-size-large  {
+  --DS-base-font-size: var(--DS-sizing-160);
+}

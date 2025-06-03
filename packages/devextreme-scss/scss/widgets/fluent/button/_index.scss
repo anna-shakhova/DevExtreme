@@ -6,6 +6,27 @@
 
 // adduse
 
+.dx-size-small {
+  --DS_button-base-padding: var(--DS-sizing-40);
+  --DS-button-height: var(--DS-sizing-240);
+  --DS-button-icon-size: var(--DS-sizing-160);
+  --DS-button-icon-margin: var(--DS-sizing-40);
+}
+
+.dx-size-medium  {
+  --DS-button-base-padding: var(--DS-sizing-60);
+  --DS-button-height: var(--DS-sizing-320);
+  --DS-button-icon-size: var(--DS-sizing-200);
+  --DS-button-icon-margin: var(--DS-sizing-80);
+}
+
+.dx-size-large  {
+  --DS-button-base-padding: var(--DS-sizing-80);
+  --DS-button-height: var(--DS-sizing-400);
+  --DS-button-icon-size: var(--DS-sizing-240);
+  --DS-button-icon-margin: var(--DS-sizing-120);
+}
+
 .dx-button-content {
   line-height: $fluent-button-content-line-height;
 }
@@ -19,6 +40,8 @@
 
 .dx-button {
   @include dx-button-onlyicon-sizing();
+
+  font-size: var(--DS-base-font-size);
 }
 
 .dx-button-has-icon {
