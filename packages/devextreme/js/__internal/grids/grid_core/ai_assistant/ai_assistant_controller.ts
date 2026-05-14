@@ -4,7 +4,7 @@ import type {
 } from '@js/common/ai-integration';
 import messageLocalization from '@js/common/core/localization/message';
 import { ArrayStore } from '@js/common/data';
-import type { ResponseStatus } from '@js/common/grids';
+import type { PredefinedCommandNames, ResponseStatus } from '@js/common/grids';
 import Guid from '@js/core/guid';
 import { captionize } from '@js/core/utils/inflector';
 import { isFunction, isString } from '@js/core/utils/type';
@@ -34,10 +34,9 @@ export class AIAssistantController extends Controller {
   private processing = false;
 
   private getCustomizedResponseTitle(
-    status: MessageStatus,
-    commandNames: string[],
+    status: ResponseStatus,
+    commandNames: PredefinedCommandNames[],
   ): string {
-    // TODO: remove type description, it should be got from d.ts
     const customizeResponseTitle = this.option('aiAssistant.customizeResponseTitle');
 
     if (!commandNames.length) {
@@ -45,8 +44,7 @@ export class AIAssistantController extends Controller {
     }
 
     if (customizeResponseTitle && isFunction(customizeResponseTitle)) {
-      // TODO: add type description to d.ts
-      return customizeResponseTitle(status as ResponseStatus, commandNames);
+      return customizeResponseTitle(status, commandNames);
     }
 
     if (commandNames.length === 1) {
@@ -59,8 +57,8 @@ export class AIAssistantController extends Controller {
     ].join(' and ');
   }
 
-  private getCommandNames(actions: ExecuteGridAssistantAction[]): string[] {
-    const commandNames = actions.map(({ name }) => name);
+  private getCommandNames(actions: ExecuteGridAssistantAction[]): PredefinedCommandNames[] {
+    const commandNames = actions.map(({ name }) => name as PredefinedCommandNames);
     const uniqueCommandNameSet = new Set(commandNames);
 
     return Array.from(uniqueCommandNameSet);
@@ -92,7 +90,6 @@ export class AIAssistantController extends Controller {
       return Promise.reject(new Error('Received invalid commands'));
     }
 
-    // TODO: add type description to d.ts
     const customizeResponseText = this.option('aiAssistant.customizeResponseText');
 
     return this.gridCommands?.executeCommands(response.actions, customizeResponseText)
@@ -127,7 +124,7 @@ export class AIAssistantController extends Controller {
   private completeAIMessage(
     messageId: string,
     commands: CommandResult[],
-    commandNames: string[],
+    commandNames: PredefinedCommandNames[],
   ): void {
     const messageStatus = getMessageStatus(commands);
 

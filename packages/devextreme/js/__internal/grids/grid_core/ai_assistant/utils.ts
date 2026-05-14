@@ -1,7 +1,8 @@
+import type { ResponseStatus } from '@js/common/grids';
 import { isObject } from '@js/core/utils/type';
 import type { Message } from '@js/ui/chat';
 
-import { AI_ASSISTANT_AUTHOR_ID, MessageStatus } from './const';
+import { AI_ASSISTANT_AUTHOR_ID } from './const';
 import type { AIMessage, CommandResult } from './types';
 
 export const isAIMessage = (
@@ -28,10 +29,10 @@ export const hasAbortedCommands = (
   commands: CommandResult[] | undefined,
 ): boolean => !!commands?.some(({ status }) => status === 'aborted');
 
-export const getMessageStatus = (commands: CommandResult[]): MessageStatus => {
+export const getMessageStatus = (commands: CommandResult[]): ResponseStatus => {
   if (hasCommandErrors(commands) || hasAbortedCommands(commands)) {
-    return MessageStatus.Failure;
+    return 'failure';
   }
 
-  return MessageStatus.Success;
+  return 'success';
 };
