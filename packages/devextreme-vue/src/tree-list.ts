@@ -22,8 +22,6 @@ import {
  SearchPanel,
  Sorting,
  AIColumnMode,
- ResponseStatusTexts,
- ResponseStatus,
  DataChangeType,
  ColumnAIOptions,
  FilterOperation,
@@ -189,10 +187,6 @@ import {
  PasteEvent,
  ValueChangedEvent,
 } from "devextreme/ui/text_box";
-import {
- DataGridCommandInfo,
- DataGridPredefinedCommandNames,
-} from "devextreme/ui/data_grid";
 import {
  AnimationConfig,
  CollisionResolution,
@@ -403,7 +397,7 @@ const componentConfig = {
   props: {
     accessKey: String,
     activeStateEnabled: Boolean,
-    aiAssistant: Object,
+    aiAssistant: {},
     aiIntegration: Object as PropType<AIIntegration>,
     allowColumnReordering: Boolean,
     allowColumnResizing: Boolean,
@@ -655,7 +649,6 @@ const componentConfig = {
     (this as any).$_WidgetClass = TreeList;
     (this as any).$_hasAsyncTemplate = false;
     (this as any).$_expectedChildren = {
-      aiAssistant: { isCollectionItem: false, optionName: "aiAssistant" },
       column: { isCollectionItem: true, optionName: "columns" },
       columnChooser: { isCollectionItem: false, optionName: "columnChooser" },
       columnFixing: { isCollectionItem: false, optionName: "columnFixing" },
@@ -721,25 +714,6 @@ const DxAI = defineComponent(DxAIConfig);
 (DxAI as any).$_expectedChildren = {
   editorOptions: { isCollectionItem: false, optionName: "editorOptions" }
 };
-
-const DxAIAssistantConfig = {
-  emits: {
-    "update:isActive": null,
-    "update:hoveredElement": null,
-    "update:customizeResponseText": null,
-    "update:customizeResponseTitle": null,
-  },
-  props: {
-    customizeResponseText: Function as PropType<((command: DataGridCommandInfo) => ResponseStatusTexts)>,
-    customizeResponseTitle: Function as PropType<((status: ResponseStatus, commandNames: Array<DataGridPredefinedCommandNames>) => string)>
-  }
-};
-
-prepareConfigurationComponentConfig(DxAIAssistantConfig);
-
-const DxAIAssistant = defineComponent(DxAIAssistantConfig);
-
-(DxAIAssistant as any).$_optionName = "aiAssistant";
 
 const DxAIOptionsConfig = {
   emits: {
@@ -4316,7 +4290,6 @@ export default DxTreeList;
 export {
   DxTreeList,
   DxAI,
-  DxAIAssistant,
   DxAIOptions,
   DxAnimation,
   DxAsyncRule,

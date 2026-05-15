@@ -25,7 +25,6 @@ export type { ExplicitTypes } from 'devextreme/ui/data_grid';
 
 import type dxSortable from 'devextreme/ui/sortable';
 import type dxDraggable from 'devextreme/ui/draggable';
-import type { AIAssistant } from 'UNKNOWN_MODULE';
 import type { AIIntegration } from 'devextreme/common/ai-integration';
 import type { ColumnChooser, ColumnResizeMode, DataChange, GridsEditMode, NewRowPosition, GridsEditRefreshMode, StartEditAction, FilterPanel, ApplyFilterMode, GroupExpandMode, HeaderFilter, EnterKeyAction, EnterKeyDirection, Pager, GridBase, DataRenderMode, SearchPanel, SelectionColumnDisplayMode, Sorting, StateStoreType, SummaryType } from 'devextreme/common/grids';
 import type { default as dxDataGrid, dxDataGridColumn, dxDataGridRowObject, DataGridExportFormat, AdaptiveDetailRowPreparingEvent, AIAssistantRequestCreatingEvent, AIColumnRequestCreatingEvent, CellClickEvent, CellDblClickEvent, CellHoverChangedEvent, CellPreparedEvent, ContentReadyEvent, ContextMenuPreparingEvent, DataErrorOccurredEvent, DisposingEvent, EditCanceledEvent, EditCancelingEvent, EditingStartEvent, EditorPreparedEvent, EditorPreparingEvent, ExportingEvent, FocusedCellChangedEvent, FocusedCellChangingEvent, FocusedRowChangedEvent, FocusedRowChangingEvent, InitializedEvent, InitNewRowEvent, KeyDownEvent, OptionChangedEvent, RowClickEvent, RowCollapsedEvent, RowCollapsingEvent, RowDblClickEvent, RowExpandedEvent, RowExpandingEvent, RowInsertedEvent, RowInsertingEvent, RowPreparedEvent, RowRemovedEvent, RowRemovingEvent, RowUpdatedEvent, RowUpdatingEvent, RowValidatingEvent, SavedEvent, SavingEvent, SelectionChangedEvent, ToolbarPreparingEvent, DataGridScrollMode, SelectionSensitivity, dxDataGridToolbar } from 'devextreme/ui/data_grid';
@@ -119,7 +118,6 @@ import { DxiTotalItemModule } from 'devextreme-angular/ui/nested';
 import { DxoToolbarModule } from 'devextreme-angular/ui/nested';
 
 import { DxoDataGridAIModule } from 'devextreme-angular/ui/data-grid/nested';
-import { DxoDataGridAIAssistantModule } from 'devextreme-angular/ui/data-grid/nested';
 import { DxoDataGridAIOptionsModule } from 'devextreme-angular/ui/data-grid/nested';
 import { DxoDataGridAnimationModule } from 'devextreme-angular/ui/data-grid/nested';
 import { DxiDataGridAsyncRuleModule } from 'devextreme-angular/ui/data-grid/nested';
@@ -345,15 +343,12 @@ export class DxDataGridComponent<TRowData = any, TKey = any> extends DxComponent
     }
 
 
-    /**
-     * [descr:dxDataGridOptions.aiAssistant]
     
-     */
     @Input()
-    get aiAssistant(): AIAssistant {
+    get aiAssistant(): any {
         return this._getOption('aiAssistant');
     }
-    set aiAssistant(value: AIAssistant) {
+    set aiAssistant(value: any) {
         this._setOption('aiAssistant', value);
     }
 
@@ -1684,7 +1679,7 @@ export class DxDataGridComponent<TRowData = any, TKey = any> extends DxComponent
      * This member supports the internal infrastructure and is not intended to be used directly from your code.
     
      */
-    @Output() aiAssistantChange: EventEmitter<AIAssistant>;
+    @Output() aiAssistantChange: EventEmitter<any>;
 
     /**
     
@@ -2461,7 +2456,6 @@ export class DxDataGridComponent<TRowData = any, TKey = any> extends DxComponent
     DxiTotalItemModule,
     DxoToolbarModule,
     DxoDataGridAIModule,
-    DxoDataGridAIAssistantModule,
     DxoDataGridAIOptionsModule,
     DxoDataGridAnimationModule,
     DxiDataGridAsyncRuleModule,
@@ -2635,7 +2629,6 @@ export class DxDataGridComponent<TRowData = any, TKey = any> extends DxComponent
     DxiTotalItemModule,
     DxoToolbarModule,
     DxoDataGridAIModule,
-    DxoDataGridAIAssistantModule,
     DxoDataGridAIOptionsModule,
     DxoDataGridAnimationModule,
     DxiDataGridAsyncRuleModule,

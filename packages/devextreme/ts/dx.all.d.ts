@@ -12413,14 +12413,14 @@ declare module DevExpress.ui {
      */
     export type AIAssistant = DevExpress.common.grids.BaseAIAssistant & {
       /**
-       * [descr:AIAssistant.customizeResponseTitle]
+       * [descr:dxDataGridAIAssistant.customizeResponseTitle]
        */
       customizeResponseTitle?: (
         status: DevExpress.common.grids.ResponseStatus,
         commandNames: DataGridPredefinedCommandNames[]
       ) => string;
       /**
-       * [descr:AIAssistant.customizeResponseText]
+       * [descr:dxDataGridAIAssistant.customizeResponseText]
        */
       customizeResponseText?: (
         command: DataGridCommandInfo
@@ -13199,6 +13199,7 @@ declare module DevExpress.ui {
       Toolbar: Toolbar;
       ToolbarItem: ToolbarItem;
       ToolbarPreparingEvent: ToolbarPreparingEvent<TRowData, TKey>;
+      AIAssistant: AIAssistant;
     };
     /**
      * [descr:Export]
@@ -30918,14 +30919,14 @@ declare module DevExpress.ui {
      */
     export type AIAssistant = DevExpress.common.grids.BaseAIAssistant & {
       /**
-       * [descr:AIAssistant.customizeResponseTitle]
+       * [descr:dxTreeListAIAssistant.customizeResponseTitle]
        */
       customizeResponseTitle?: (
         status: DevExpress.common.grids.ResponseStatus,
         commandNames: TreeListPredefinedCommandNames[]
       ) => string;
       /**
-       * [descr:AIAssistant.customizeResponseText]
+       * [descr:dxTreeListAIAssistant.customizeResponseText]
        */
       customizeResponseText?: (
         command: TreeListCommandInfo

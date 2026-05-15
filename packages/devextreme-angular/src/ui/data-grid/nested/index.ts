@@ -1,4 +1,3 @@
-export * from './ai-assistant';
 export * from './ai-options';
 export * from './ai';
 export * from './animation';

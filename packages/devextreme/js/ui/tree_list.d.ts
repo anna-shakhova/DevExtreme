@@ -210,11 +210,11 @@ export type dxTreeListAIAssistant = AIAssistant;
  */
 export type AIAssistant = BaseAIAssistant & {
   /**
-   * @docid
+   * @docid dxTreeListAIAssistant.customizeResponseTitle
    */
   customizeResponseTitle?: (status: ResponseStatus, commandNames: TreeListPredefinedCommandNames[]) => string;
   /**
-   * @docid
+   * @docid dxTreeListAIAssistant.customizeResponseText
    */
   customizeResponseText?: (command: TreeListCommandInfo) => ResponseStatusTexts;
 };

@@ -3,6 +3,7 @@ import { cleanArtifacts, types } from './common';
 import { commonSmdCollectionItems } from './common/smd';
 import { NG_SMD_FILE, PATHS } from './common/paths';
 import { replaceTypesMutations } from './common-smd-mutations';
+import { dxDataGridOptions } from 'devextreme/js/ui/data_grid';
 
 cleanArtifacts(NG_SMD_FILE, 'NgSmdGenerator.cfg.json');
 
@@ -47,8 +48,8 @@ Ng.makeMetadata({
     ...replaceTypesMutations,
 
     removeMembers(/\/grids:ColumnBase.ai/),
-    removeMembers(/\/grids:AIAssistant/),
-    removeMembers(/\/data_grid:AIAssistant/),
+    // removeMembers(/\/grids:AIAssistant/),
+    removeMembers(/\/data_grid:dxDataGridOptions.aiAssistant/),
     removeMembers(/\/calendar:dxCalendarOptions.todayButtonText/),
     removeMembers(/\/card_view:/),
     removeMembers(/\/chat:TextMessage.attachments/),
@@ -71,7 +72,7 @@ Ng.makeMetadata({
     removeMembers(/\/stepper:/),
     removeMembers(/\/speech_to_text:/),
     removeMembers(/\/tree_list:dxTreeListColumnButton.onClick/),
-    removeMembers(/\/tree_list:AIAssistant/),
+    removeMembers(/\/tree_list:dxTreeListOptions.aiAssistant/),
   ],
   variables: {
     CollectionItems: [...commonSmdCollectionItems],

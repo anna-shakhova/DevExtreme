@@ -1980,11 +1980,11 @@ export type dxDataGridAIAssistant = AIAssistant;
  */
 export type AIAssistant = BaseAIAssistant & {
   /**
-   * @docid
+   * @docid dxDataGridAIAssistant.customizeResponseTitle
    */
   customizeResponseTitle?: (status: ResponseStatus, commandNames: DataGridPredefinedCommandNames[]) => string;
   /**
-   * @docid
+   * @docid dxDataGridAIAssistant.customizeResponseText
    */
   customizeResponseText?: (command: DataGridCommandInfo) => ResponseStatusTexts;
 };
@@ -2594,6 +2594,7 @@ export type ExplicitTypes<TRowData, TKey> = {
   Toolbar: Toolbar;
   ToolbarItem: ToolbarItem;
   ToolbarPreparingEvent: ToolbarPreparingEvent<TRowData, TKey>;
+  AIAssistant: AIAssistant;
 };
 
 /** @deprecated RowDraggingTemplateData from 'devextreme/common/grids' instead */
