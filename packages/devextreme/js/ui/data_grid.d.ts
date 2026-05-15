@@ -82,9 +82,10 @@ import {
   ToolbarPreparingInfo,
   AIColumnRequestCreatingInfo,
   AIAssistantRequestCreatingInfo,
-  AIAssistant as BaseAIAssistant,
-  PredefinedCommands as BasePredefinedCommands,
-  CommandInfo as BaseCommandInfo,
+  BaseAIAssistant,
+  PredefinedCommands,
+  CommandInfo,
+  ResponseStatus,
   ResponseStatusTexts,
 } from '../common/grids';
 
@@ -149,6 +150,7 @@ export {
     StateStoreType,
     StateStoring,
     SummaryType,
+    ResponseStatus,
     ResponseStatusTexts,
 } from '../common/grids';
 
@@ -1174,7 +1176,7 @@ export type DataRowTemplateData<TRowData = any, TKey = any> = {
   readonly isExpanded?: boolean;
 };
 
-type OverriddenKeys = 'columns' | 'customizeColumns' | 'dataRowTemplate' | 'editing' | 'export' | 'grouping' | 'groupPanel' | 'keyExpr' | 'masterDetail' | 'onCellClick' | 'onCellDblClick' | 'onCellHoverChanged' | 'onCellPrepared' | 'onContextMenuPreparing' | 'onEditingStart' | 'onEditorPrepared' | 'onEditorPreparing' | 'onExporting' | 'onFocusedCellChanged' | 'onFocusedCellChanging' | 'onFocusedRowChanged' | 'onFocusedRowChanging' | 'onRowClick' | 'onRowDblClick' | 'onRowPrepared' | 'remoteOperations' | 'rowTemplate' | 'scrolling' | 'selection' | 'selectionFilter' | 'sortByGroupSummaryInfo' | 'summary' | 'toolbar' | 'aiAssistant';
+type OverriddenKeys = 'columns' | 'customizeColumns' | 'dataRowTemplate' | 'editing' | 'export' | 'grouping' | 'groupPanel' | 'keyExpr' | 'masterDetail' | 'onCellClick' | 'onCellDblClick' | 'onCellHoverChanged' | 'onCellPrepared' | 'onContextMenuPreparing' | 'onEditingStart' | 'onEditorPrepared' | 'onEditorPreparing' | 'onExporting' | 'onFocusedCellChanged' | 'onFocusedCellChanging' | 'onFocusedRowChanged' | 'onFocusedRowChanging' | 'onRowClick' | 'onRowDblClick' | 'onRowPrepared' | 'remoteOperations' | 'rowTemplate' | 'scrolling' | 'selection' | 'selectionFilter' | 'sortByGroupSummaryInfo' | 'summary' | 'toolbar';
 
 /**
  * @deprecated use Properties instead
@@ -1946,7 +1948,7 @@ export type Toolbar = {
  * @public
  * @inherits GridBasePredefinedCommands
  */
-export type PredefinedCommands = BasePredefinedCommands & {
+export type DataGridPredefinedCommands = PredefinedCommands & {
   grouping: {
     dataField: string;
     groupIndex: number;
@@ -1958,19 +1960,34 @@ export type PredefinedCommands = BasePredefinedCommands & {
  * @docid
  * @hidden
  */
-export type GridCommandInfo = BaseCommandInfo<PredefinedCommands>;
+export type DataGridCommandInfo = CommandInfo<DataGridPredefinedCommands>;
 
 /**
  * @docid
  * @public
  */
-export type PredefinedCommandNames = keyof PredefinedCommands;
+export type DataGridPredefinedCommandNames = keyof DataGridPredefinedCommands;
 
 /**
- * @docid
+ * @namespace DevExpress.ui
+ * @deprecated Use AIAssistant instead
+ */
+export type dxDataGridAIAssistant = AIAssistant;
+
+/**
+ * @docid dxDataGridAIAssistant
  * @public
  */
-export type AIAssistant = BaseAIAssistant<PredefinedCommands>;
+export type AIAssistant = BaseAIAssistant & {
+  /**
+   * @docid
+   */
+  customizeResponseTitle?: (status: ResponseStatus, commandNames: DataGridPredefinedCommandNames[]) => string;
+  /**
+   * @docid
+   */
+  customizeResponseText?: (command: DataGridCommandInfo) => ResponseStatusTexts;
+};
 
 /**
  * @namespace DevExpress.ui

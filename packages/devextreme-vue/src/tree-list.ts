@@ -11,7 +11,9 @@ import  dxPopup from "devextreme/ui/popup";
 import  dxSortable from "devextreme/ui/sortable";
 import  dxDraggable from "devextreme/ui/draggable";
 import {
- AIAssistant,
+ AIIntegration,
+} from "devextreme/common/ai-integration";
+import {
  ColumnChooser,
  ColumnResizeMode,
  FilterPanel,
@@ -20,7 +22,6 @@ import {
  SearchPanel,
  Sorting,
  AIColumnMode,
- CommandInfo,
  ResponseStatusTexts,
  ResponseStatus,
  DataChangeType,
@@ -50,9 +51,6 @@ import {
  DataRenderMode,
  StateStoreType,
 } from "devextreme/common/grids";
-import {
- AIIntegration,
-} from "devextreme/common/ai-integration";
 import {
  dxTreeListColumn,
  TreeListFilterMode,
@@ -191,6 +189,10 @@ import {
  PasteEvent,
  ValueChangedEvent,
 } from "devextreme/ui/text_box";
+import {
+ DataGridCommandInfo,
+ DataGridPredefinedCommandNames,
+} from "devextreme/ui/data_grid";
 import {
  AnimationConfig,
  CollisionResolution,
@@ -401,7 +403,7 @@ const componentConfig = {
   props: {
     accessKey: String,
     activeStateEnabled: Boolean,
-    aiAssistant: Object as PropType<AIAssistant | Record<string, any>>,
+    aiAssistant: Object,
     aiIntegration: Object as PropType<AIIntegration>,
     allowColumnReordering: Boolean,
     allowColumnResizing: Boolean,
@@ -724,22 +726,12 @@ const DxAIAssistantConfig = {
   emits: {
     "update:isActive": null,
     "update:hoveredElement": null,
-    "update:aiIntegration": null,
-    "update:chat": null,
     "update:customizeResponseText": null,
     "update:customizeResponseTitle": null,
-    "update:enabled": null,
-    "update:popup": null,
-    "update:title": null,
   },
   props: {
-    aiIntegration: Object as PropType<AIIntegration>,
-    chat: Object as PropType<Record<string, any>>,
-    customizeResponseText: Function as PropType<((command: CommandInfo) => ResponseStatusTexts)>,
-    customizeResponseTitle: Function as PropType<((status: ResponseStatus, commandNames: Array<string>) => string)>,
-    enabled: Boolean,
-    popup: Object as PropType<dxPopupOptions<any> | Record<string, any>>,
-    title: String
+    customizeResponseText: Function as PropType<((command: DataGridCommandInfo) => ResponseStatusTexts)>,
+    customizeResponseTitle: Function as PropType<((status: ResponseStatus, commandNames: Array<DataGridPredefinedCommandNames>) => string)>
   }
 };
 
@@ -748,9 +740,6 @@ prepareConfigurationComponentConfig(DxAIAssistantConfig);
 const DxAIAssistant = defineComponent(DxAIAssistantConfig);
 
 (DxAIAssistant as any).$_optionName = "aiAssistant";
-(DxAIAssistant as any).$_expectedChildren = {
-  popup: { isCollectionItem: false, optionName: "popup" }
-};
 
 const DxAIOptionsConfig = {
   emits: {

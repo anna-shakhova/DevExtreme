@@ -63,6 +63,12 @@ import {
     ToolbarPreparingInfo,
     AIColumnRequestCreatingInfo,
     AIAssistantRequestCreatingInfo,
+    BaseAIAssistant,
+    PredefinedCommands,
+    PredefinedCommandNames,
+    CommandInfo,
+    ResponseStatus,
+    ResponseStatusTexts,
 } from '../common/grids';
 
 import { dxToolbarItem } from './toolbar';
@@ -115,10 +121,6 @@ export {
 } from '../common';
 
 export {
-    AIAssistant,
-    PredefinedCommands,
-    PredefinedCommandNames,
-    ResponseStatusTexts,
     ApplyFilterMode,
     ColumnChooser,
     ColumnChooserMode,
@@ -164,6 +166,8 @@ export {
     StateStoreType,
     StateStoring,
     SummaryType,
+    ResponseStatus,
+    ResponseStatusTexts,
 } from '../common/grids';
 
 export {
@@ -172,6 +176,47 @@ export {
     ScrollMode,
     SingleMultipleOrNone,
     ToolbarItemLocation,
+};
+
+/**
+ * @docid
+ * @public
+ */
+export type TreeListPredefinedCommands = PredefinedCommands;
+
+/**
+ * @docid
+ * @hidden
+ * @namespace DevExpress.ui.dxTreeList
+ */
+export type TreeListCommandInfo = CommandInfo;
+
+/**
+ * @docid
+ * @public
+ * @namespace DevExpress.ui.dxTreeList
+ */
+export type TreeListPredefinedCommandNames = PredefinedCommandNames;
+
+/**
+ * @namespace DevExpress.ui
+ * @deprecated Use AIAssistant instead
+ */
+export type dxTreeListAIAssistant = AIAssistant;
+
+/**
+ * @docid dxTreeListAIAssistant
+ * @public
+ */
+export type AIAssistant = BaseAIAssistant & {
+  /**
+   * @docid
+   */
+  customizeResponseTitle?: (status: ResponseStatus, commandNames: TreeListPredefinedCommandNames[]) => string;
+  /**
+   * @docid
+   */
+  customizeResponseText?: (command: TreeListCommandInfo) => ResponseStatusTexts;
 };
 
 /** @public */
@@ -926,6 +971,11 @@ type OverriddenKeys = 'autoExpandAll' | 'columns' | 'customizeColumns' | 'dataSt
  * @type object
  */
 export type dxTreeListOptions<TRowData = any, TKey = any> = Omit<GridBaseOptions<dxTreeList<TRowData, TKey>, TRowData, TKey>, OverriddenKeys> & {
+    /**
+     * @docid
+     * @public
+     */
+    aiAssistant?: AIAssistant;
     /**
      * @docid
      * @default false

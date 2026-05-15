@@ -1,11 +1,11 @@
 export type {
     AdaptiveDetailRowPreparingInfo,
-    AIAssistant,
     AIAssistantRequestCreatingInfo,
     AIColumnMode,
     AIColumnRequestCreatingInfo,
     ApplyChangesMode,
     ApplyFilterMode,
+    BaseAIAssistant,
     ColumnAIOptions,
     ColumnBase,
     ColumnButtonBase,

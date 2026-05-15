@@ -101,7 +101,7 @@ export type ResponseStatusTexts = {
 
 /**
  * @docid GridBasePredefinedCommands
- * @public
+ * @hidden
  * @namespace DevExpress.common.grids
  */
 export type PredefinedCommands = {
@@ -114,6 +114,7 @@ export type PredefinedCommands = {
 
 /**
  * @docid
+ * @public
  * @namespace DevExpress.common.grids
  */
 export type CommandInfo<
@@ -129,11 +130,10 @@ export type PredefinedCommandNames = keyof PredefinedCommands;
 
 /**
  * @docid
- * @public
- * @type object
+ * @hidden
  * @namespace DevExpress.common.grids
  */
-export type AIAssistant<TCommands extends PredefinedCommands = PredefinedCommands> = {
+export type BaseAIAssistant = {
   /** @docid */
   aiIntegration?: AIIntegration;
   /**
@@ -156,16 +156,6 @@ export type AIAssistant<TCommands extends PredefinedCommands = PredefinedCommand
    * @default 'AI Assistant'
    */
   title?: string;
-  /**
-   * @docid
-   */
-  customizeResponseTitle?: (status: ResponseStatus, commandNames: (keyof TCommands)[]) => string;
-  /**
-   * @docid
-   * @type_function_param1 command:CommandInfo
-   * @type_function_return ResponseStatusTexts
-   */
-  customizeResponseText?: (command: CommandInfo<TCommands>) => ResponseStatusTexts;
 };
 
 /**
@@ -2036,11 +2026,6 @@ interface GridBaseOptionsBlank<TComponent extends GridBase<TRowData, TKey>, TRow
  * @type object
  */
 export type GridBaseOptions<TComponent extends GridBase<TRowData, TKey>, TRowData = any, TKey = any> = Omit<GridBaseOptionsBlank<TComponent, TRowData, TKey>, 'focusStateEnabled'> & {
-  /**
-   * @docid
-   * @public
-   */
-  aiAssistant?: AIAssistant;
   /**
    * @docid
    * @default undefined

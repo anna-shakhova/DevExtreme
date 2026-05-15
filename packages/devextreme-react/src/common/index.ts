@@ -275,12 +275,12 @@ export namespace Export {
 export function Grids(): void {}
 export namespace Grids {
     export type AdaptiveDetailRowPreparingInfo = GridsModule.AdaptiveDetailRowPreparingInfo;
-    export type AIAssistant<TCommands extends PredefinedCommands = PredefinedCommands> = GridsModule.AIAssistant<TCommands>;
     export type AIAssistantRequestCreatingInfo = GridsModule.AIAssistantRequestCreatingInfo;
     export type AIColumnMode = GridsModule.AIColumnMode;
     export type AIColumnRequestCreatingInfo<TRowData = any> = GridsModule.AIColumnRequestCreatingInfo<TRowData>;
     export type ApplyChangesMode = GridsModule.ApplyChangesMode;
     export type ApplyFilterMode = GridsModule.ApplyFilterMode;
+    export type BaseAIAssistant = GridsModule.BaseAIAssistant;
     export type ColumnAIOptions = GridsModule.ColumnAIOptions;
     export type ColumnBase<TRowData = any> = GridsModule.ColumnBase<TRowData>;
     export type ColumnButtonBase = GridsModule.ColumnButtonBase;

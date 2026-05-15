@@ -4623,46 +4623,6 @@ declare module DevExpress.common.grids {
     readonly formOptions: any;
   };
   /**
-   * [descr:AIAssistant]
-   */
-  export type AIAssistant<
-    TCommands extends PredefinedCommands = PredefinedCommands
-  > = {
-    /**
-     * [descr:AIAssistant.aiIntegration]
-     */
-    aiIntegration?: DevExpress.aiIntegration.AIIntegration;
-    /**
-     * [descr:AIAssistant.chat]
-     */
-    chat?: DevExpress.ui.dxChat.Properties;
-    /**
-     * [descr:AIAssistant.enabled]
-     */
-    enabled?: boolean;
-    /**
-     * [descr:AIAssistant.popup]
-     */
-    popup?: DevExpress.ui.dxPopup.Properties;
-    /**
-     * [descr:AIAssistant.title]
-     */
-    title?: string;
-    /**
-     * [descr:AIAssistant.customizeResponseTitle]
-     */
-    customizeResponseTitle?: (
-      status: ResponseStatus,
-      commandNames: (keyof TCommands)[]
-    ) => string;
-    /**
-     * [descr:AIAssistant.customizeResponseText]
-     */
-    customizeResponseText?: (
-      command: CommandInfo<TCommands>
-    ) => ResponseStatusTexts;
-  };
-  /**
    * [descr:AIAssistantRequestCreatingInfo]
    * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
    */
@@ -4699,6 +4659,32 @@ declare module DevExpress.common.grids {
   };
   export type ApplyChangesMode = 'instantly' | 'onDemand';
   export type ApplyFilterMode = 'auto' | 'onClick';
+  /**
+   * [descr:BaseAIAssistant]
+   * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
+   */
+  export type BaseAIAssistant = {
+    /**
+     * [descr:BaseAIAssistant.aiIntegration]
+     */
+    aiIntegration?: DevExpress.aiIntegration.AIIntegration;
+    /**
+     * [descr:BaseAIAssistant.chat]
+     */
+    chat?: DevExpress.ui.dxChat.Properties;
+    /**
+     * [descr:BaseAIAssistant.enabled]
+     */
+    enabled?: boolean;
+    /**
+     * [descr:BaseAIAssistant.popup]
+     */
+    popup?: DevExpress.ui.dxPopup.Properties;
+    /**
+     * [descr:BaseAIAssistant.title]
+     */
+    title?: string;
+  };
   /**
    * [descr:ColumnAIOptions]
    */
@@ -5243,7 +5229,6 @@ declare module DevExpress.common.grids {
   export type ColumnResizeMode = 'nextColumn' | 'widget';
   /**
    * [descr:CommandInfo]
-   * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
    */
   export type CommandInfo<
     TCommands extends PredefinedCommands = PredefinedCommands
@@ -5895,10 +5880,6 @@ declare module DevExpress.common.grids {
     'focusStateEnabled'
   > & {
     /**
-     * [descr:GridBaseOptions.aiAssistant]
-     */
-    aiAssistant?: AIAssistant;
-    /**
      * [descr:GridBaseOptions.aiIntegration]
      */
     aiIntegration?: DevExpress.aiIntegration.AIIntegration | undefined;
@@ -6509,6 +6490,7 @@ declare module DevExpress.common.grids {
   export type PredefinedCommandNames = keyof PredefinedCommands;
   /**
    * [descr:GridBasePredefinedCommands]
+   * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
    */
   export type PredefinedCommands = {
     sorting: {
@@ -12427,10 +12409,23 @@ declare module DevExpress.ui {
     > = DevExpress.common.core.events.EventInfo<dxDataGrid<TRowData, TKey>> &
       DevExpress.common.grids.AdaptiveDetailRowPreparingInfo;
     /**
-     * [descr:AIAssistant]
+     * [descr:dxDataGridAIAssistant]
      */
-    export type AIAssistant =
-      DevExpress.common.grids.AIAssistant<PredefinedCommands>;
+    export type AIAssistant = DevExpress.common.grids.BaseAIAssistant & {
+      /**
+       * [descr:AIAssistant.customizeResponseTitle]
+       */
+      customizeResponseTitle?: (
+        status: DevExpress.common.grids.ResponseStatus,
+        commandNames: DataGridPredefinedCommandNames[]
+      ) => string;
+      /**
+       * [descr:AIAssistant.customizeResponseText]
+       */
+      customizeResponseText?: (
+        command: DataGridCommandInfo
+      ) => DevExpress.common.grids.ResponseStatusTexts;
+    };
     /**
      * [descr:_ui_data_grid_AIAssistantRequestCreatingEvent]
      */
@@ -12848,6 +12843,12 @@ declare module DevExpress.ui {
       | 'groupExpand'
       | 'selection'
       | 'drag';
+    /**
+     * [descr:DataGridCommandInfo]
+     * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
+     */
+    export type DataGridCommandInfo =
+      DevExpress.common.grids.CommandInfo<DataGridPredefinedCommands>;
     export type DataGridExportFormat = 'pdf' | 'xlsx';
     export type DataGridPredefinedColumnButton =
       | 'cancel'
@@ -12855,6 +12856,22 @@ declare module DevExpress.ui {
       | 'edit'
       | 'save'
       | 'undelete';
+    /**
+     * [descr:DataGridPredefinedCommandNames]
+     */
+    export type DataGridPredefinedCommandNames =
+      keyof DataGridPredefinedCommands;
+    /**
+     * [descr:DataGridPredefinedCommands]
+     */
+    export type DataGridPredefinedCommands =
+      DevExpress.common.grids.PredefinedCommands & {
+        grouping: {
+          dataField: string;
+          groupIndex: number;
+        };
+        clearGrouping: {};
+      };
     export type DataGridPredefinedToolbarItem =
       | 'addRowButton'
       | 'applyFilterButton'
@@ -13369,12 +13386,6 @@ declare module DevExpress.ui {
         readonly rows: Array<Row<TRowData, TKey>>;
       };
     /**
-     * [descr:GridCommandInfo]
-     * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
-     */
-    export type GridCommandInfo =
-      DevExpress.common.grids.CommandInfo<PredefinedCommands>;
-    /**
      * [descr:GroupData]
      */
     export type GroupData<TRowData> = {
@@ -13571,24 +13582,8 @@ declare module DevExpress.ui {
       | 'selectionFilter'
       | 'sortByGroupSummaryInfo'
       | 'summary'
-      | 'toolbar'
-      | 'aiAssistant';
+      | 'toolbar';
     export type Paging = DevExpress.common.grids.PagingBase;
-    /**
-     * [descr:PredefinedCommandNames]
-     */
-    export type PredefinedCommandNames = keyof PredefinedCommands;
-    /**
-     * [descr:PredefinedCommands]
-     */
-    export type PredefinedCommands =
-      DevExpress.common.grids.PredefinedCommands & {
-        grouping: {
-          dataField: string;
-          groupIndex: number;
-        };
-        clearGrouping: {};
-      };
     export type Properties<TRowData = any, TKey = any> = dxDataGridOptions<
       TRowData,
       TKey
@@ -30919,6 +30914,24 @@ declare module DevExpress.ui {
     > = DevExpress.common.core.events.EventInfo<dxTreeList<TRowData, TKey>> &
       DevExpress.common.grids.AdaptiveDetailRowPreparingInfo;
     /**
+     * [descr:dxTreeListAIAssistant]
+     */
+    export type AIAssistant = DevExpress.common.grids.BaseAIAssistant & {
+      /**
+       * [descr:AIAssistant.customizeResponseTitle]
+       */
+      customizeResponseTitle?: (
+        status: DevExpress.common.grids.ResponseStatus,
+        commandNames: TreeListPredefinedCommandNames[]
+      ) => string;
+      /**
+       * [descr:AIAssistant.customizeResponseText]
+       */
+      customizeResponseText?: (
+        command: TreeListCommandInfo
+      ) => DevExpress.common.grids.ResponseStatusTexts;
+    };
+    /**
      * [descr:_ui_tree_list_AIAssistantRequestCreatingEvent]
      */
     export type AIAssistantRequestCreatingEvent<
@@ -32134,6 +32147,11 @@ declare module DevExpress.ui {
       | 'edit'
       | 'save'
       | 'undelete';
+    /**
+     * [descr:TreeListPredefinedCommands]
+     */
+    export type TreeListPredefinedCommands =
+      DevExpress.common.grids.PredefinedCommands;
     export type TreeListPredefinedToolbarItem =
       | 'addRowButton'
       | 'applyFilterButton'
@@ -32271,6 +32289,10 @@ declare module DevExpress.ui {
     >,
     DevExpress.ui.dxTreeList.OverriddenKeys
   > & {
+    /**
+     * [descr:dxTreeListOptions.aiAssistant]
+     */
+    aiAssistant?: DevExpress.ui.dxTreeList.AIAssistant;
     /**
      * [descr:dxTreeListOptions.autoExpandAll]
      */
@@ -34972,6 +34994,16 @@ declare module DevExpress.ui.dxTreeList {
      */
     location?: DevExpress.common.ToolbarItemLocation;
   }
+  /**
+   * [descr:TreeListCommandInfo]
+   * @deprecated Attention! This type is for internal purposes only. If you used it previously, please submit a ticket to our {@link https://supportcenter.devexpress.com/ticket/create Support Center}. We will check if there is an alternative solution.
+   */
+  export type TreeListCommandInfo = DevExpress.common.grids.CommandInfo;
+  /**
+   * [descr:TreeListPredefinedCommandNames]
+   */
+  export type TreeListPredefinedCommandNames =
+    DevExpress.common.grids.PredefinedCommandNames;
 }
 declare module DevExpress.ui.dxTreeView {
   export type Item = dxTreeViewItem;

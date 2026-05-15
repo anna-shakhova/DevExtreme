@@ -1,5 +1,5 @@
 import type { RequestCallbacks } from '@js/common/ai-integration';
-import type { AIAssistant } from '@js/common/grids';
+import type { BaseAIAssistant } from '@js/common/grids';
 import type { Message } from '@js/ui/chat';
 import type { InternalGrid } from '@ts/grids/grid_core/m_types';
 import type { z, ZodObject, ZodRawShape } from 'zod';
@@ -50,7 +50,7 @@ export interface GridCommand<
   ) => CommandExecutor<CommandArgs<TSchema>>;
 }
 
-export type CustomizeResponseText = NonNullable<AIAssistant['customizeResponseText']>;
+export type CustomizeResponseText = NonNullable<BaseAIAssistant['customizeResponseText']>;
 
 export type AIAssistantRequestCallbacks<T> = RequestCallbacks<T> & {
   onAbort?: () => void;
